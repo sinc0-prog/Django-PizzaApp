@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+        <meta charset = 'UTF-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+        {% block JavaScript %}<script src = "{% static 'js/cart.js' %}"></script>{% endblock %}
+        <title>{% block title %} Somal Pizza WebApp {% endblock %}</title>
+        <script type = "text/javascript">
+         var user = '{{request.user}}'
+                
+            function getToken(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getToken('csrftoken');
+        </script>
+    </head>
+    <body>
+        {% include 'messages.html' %}
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href = "{% url 'home' %}"><img src = "{% static 'favicon.ico' %}"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span></button>
+            
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home'%}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'pizza_list_public'%}">Menu</a>
+            </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'dashboard'%}">Dashboard</a>
+            </li>
+        
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'dashboard'%}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'user-view' %}">My account</a>
+                <a class="dropdown-item" href="{% url 'orders_list' %}">My orders</a>
+            </li>
+        {% if user.is_staff %}
+            <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'dashboard'%}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Staff Panel</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'staff_pizza_list' %}">Pizza</a>
+                    <a class="dropdown-item" href="{% url 'toppings_list' %}">Toppings</a>
+                    <a class="dropdown-item" href="{% url 'staff_order_list' %}">Orders</a>
+            </li>
+
+        {%endif%}
+        {%else%}
+        {% endif %}
+        
+        </ul>
+            <div class="form-inline my-2 my-lg-0">
+            {% if user.is_authenticated %}
+                <a href= "{% url 'logout-user' %}" class="btn btn-warning">Logout</a>
+        
+            {%else%}
+                <a href="{% url 'login'%}"class="btn btn-warning">SignUp | Sign In</a>
+            {% endif %}
+                <a href="{% url 'cart-view' %}">
+                <img  id="cart-icon" src="{% static 'images/cart.png' %}"></a>
+            {% if user.is_authenticated %}
+                <p id="cart-total">{{item_in_cart}}</p>
+            {%else%}
+                <p id="cart-total">0</p>
+            {%endif%}
+            </div>
+
+    </div>
+    </nav>
+
+    <div class = 'conteriner'>
+        <br>
+        <br>
+            {% block content %}
+                <h1 style = "text-align:center"> HomePage - Somal Pizza App </h1>
+            <br>
+         <div class="row">
+            <div class="col-lg-12">
+                <div class="box-element">
+                    <div class = "home">                        
+                        <img src  = "{% static 'images/pizza.jpg' %}" id = "pizza_img">
+                        <h3 style = "text-align:center"> Lorem Ipsum!</h3>
+                        <br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tristique risus nec 
+                        feugiat in fermentum posuere urna. Tristique et egestas quis ipsum suspendisse ultrices gravida. Eget nunc lobortis mattis aliquam faucibus purus in.
+                        Odio tempor orci dapibus ultrices in iaculis nunc sed. Quis blandit turpis cursus in hac habitasse. Arcu bibendum at varius vel pharetra vel turpis nunc.
+                        Arcu odio ut sem nulla pharetra diam sit amet nisl. Imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor. Risus feugiat in ante metus
+                        dictum at tempor commodo. Pharetra pharetra massa massa ultricies mi. Id leo in vitae turpis massa sed elementum tempus egestas. Senectus et netus et
+                        malesuada fames ac. Massa id neque aliquam vestibulum morbi blandit cursus. Nisl nisi scelerisque eu ultrices vitae. Tempus iaculis urna id volutpat.
+                        Sapien faucibus et molestie ac. Sapien nec sagittis aliquam malesuada bibendum arcu vitae elementum. Natoque penatibus et magnis dis parturient montes nascetur.
+                        Nec tincidunt praesent semper feugiat. Cras ornare arcu dui vivamus arcu felis bibendum ut tristique. Amet massa vitae tortor condimentum lacinia quis. 
+                        Sed augue lacus viverra vitae congue eu consequat ac.</p><p> Commodo nulla facilisi nullam vehicula ipsum a arcu. Vulputate sapien nec sagittis aliquam malesuada.
+                        Arcu bibendum at varius vel pharetra vel turpis. Semper viverra nam libero justo laoreet sit amet cursus sit. Euismod elementum nisi quis eleifend.
+                        Nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus. Vel facilisis volutpat est velit egestas dui id ornare.
+                        Sit amet est placerat in. Eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Nulla facilisi cras fermentum odio eu feugiat pretium. Nam libero justo 
+                        laoreet sit amet cursus sit. Dictum sit amet justo donec enim diam vulputate ut. Venenatis cras sed felis eget velit aliquet sagittis. Sagittis purus sit amet 
+                            volutpat consequat mauris. Fringilla ut morbi tincidunt augue interdum velit euismod. Nulla pharetra diam sit amet. Vehicula ipsum a arcu cursus.
+                        Malesuada fames ac turpis egestas maecenas pharetra convallis. Amet consectetur adipiscing elit ut. Faucibus pulvinar elementum integer enim neque volutpat ac.
+                        Morbi blandit cursus risus at ultrices mi. Sapien eget mi proin sed libero enim sed faucibus turpis.
+                        Ut ornare lectus sit amet est placerat. Placerat orci nulla pellentesque dignissim enim. Sagittis aliquam malesuada bibendum arcu vitae elementum curabitur.
+                        Egestas purus viverra accumsan in nisl nisi scelerisque eu ultrices. Blandit libero volutpat sed cras ornare arcu dui vivamus. Pulvinar pellentesque habitant
+                        morbi tristique senectus et. Arcu odio ut sem nulla. Feugiat vivamus at augue eget arcu. Non enim praesent elementum facilisis leo vel fringilla est ullamcorper.
+                        Vestibulum lectus mauris ultrices eros in cursus turpis massa. Platea dictumst vestibulum rhoncus est pellentesque elit. Interdum velit laoreet id donec ultrices.
+                        Arcu risus quis varius quam quisque id diam vel quam. Elementum pulvinar etiam non quam lacus suspendisse. Arcu vitae elementum curabitur vitae nunc sed velit
+                     </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    
+    
+    </div>
+    <br>
+    <footer class = "footer_main">
+        	<div class="footer-top">
+		        
+                <hr><div class="container">
+		        	    <div class="row">
+                        <hr>
+		        		    <div class="col-md-3 footer-about wow fadeInUp">
+		        			<img class="logo-footer" src= "{% static 'favicon.ico' %}" alt="logo-footer" data-at2x="assets/img/logo.png">
+		        			<br><br>
+                            <p style = "color: white">
+		        				We are a young company always looking for new and creative ideas.
+		        			</p>
+		        			
+	                    </div>
+		        		<div class="col-md-4 offset-md-1 footer-contact wow fadeInDown">
+		        			<h3 style = "color: black">Contact</h3>
+		                	<p style = "color: white"><i class="fas fa-map-marker-alt"></i> Via Maggiore 99, 10678 Reggio di Calabria Italy</p>
+		                	<p style = "color: white"><i class="fas fa-phone"></i> Phone: (0039) 333 22 45 673</p>
+		                	<p style = "color: white"><i class="fas fa-envelope"></i> Email: <a style = "color: white" href="mailto:hello@domain.com">hello@domain.com</a></p>
+	                    </div>
+	                    <div class="col-md-4 footer-links wow fadeInUp">
+	                    	<div class="row">
+	                    		<div class="col">
+	                    			<h3 style = "color: Black">Social</h3>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-6">
+                                    <br>
+	                    			<a href="https://github.com/sinc0-prog"><img  id = "git" src="{% static 'images/GitHub-Mark-Light-64px.png' %}"></a>
+							        <a href="#"><img  id = "fb" src="{% static 'images/FB1.png' %}"></a> 
+							        <a href="#"></a> 
+							        <a href="#"><i class="fab fa-instagram"></i></a> 
+							        <a href="#"><i class="fab fa-pinterest"></i></a>
+	                    		</div>
+	                    	</div>
+	                    </div>
+		            </div>
+		        </div>
+	        </div>
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<div class="row">
+	           			<div class="col-md-6 footer-copyright"><a style = "color: white" href="https://github.com/sinc0-prog">&copy; Django SomalPizzaApp by sinc0-prog</a>
+	                    </div>
+	           		</div>
+	        	</div>
+	        </div>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<h5>Pizza Menu</h5>
+<div class="row">
+
+    <div class="col-lg-12">
+        <hr>
+        <div class="box-element">
+                <div class="cart-row">
+                    <div style="flex:5"><a  class="btn btn-outline-dark" href="{% url 'add_pizza' %}">Add new to menu</a></div>
+                </div>
+            <hr>
+                <div class="cart-row">
+		            <div style="flex:2"><strong>Name</strong></div>
+		            <div style="flex:2"><strong>Toppings</strong></div>
+		            <div style="flex:2"><strong>Price</strong></div>
+		            <div style="flex:2"><strong>Edit</strong></div>
+	        </div>
+           
+            {% for pizza in pizza_list %} 
+                <div class="cart-row">
+                    <div style="flex:2"><p data-name="{{pizza.name}}" data-id = "{{pizza.id}}"class="update-name">{{pizza.name}}</p></div>
+		            <div style="flex:2"><p>{% for toppings in pizza.toppings.all %}{{toppings}} {% endfor %}</p></div>
+                    <div style="flex:2"><p>{{pizza.price}}</p></div>
+                    <div style="flex:2"><p><a href = "{% url 'update_pizza' pk=pizza.id%}"><button class="btn btn-outline-secondary add-btn">Edit</button></a>
+                    <a href = "{% url 'delete_pizza' pk=pizza.id%}"><button class="btn btn-outline-secondary add-btn">Delete</button></a></p></div>
+                </div>
+            {%endfor%}
+        
+        </div>
+    </div>
+</div>
+{% endblock %}

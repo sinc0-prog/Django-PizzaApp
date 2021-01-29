@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} In Cart {% endblock %}
+
+{% block content %}
+    <div class="row">
+        
+	    <div class="col-lg-6">
+		    <div class="box-element">
+                <div class = "cart-row">
+                <div style = "flex:2"><a  class="btn btn-outline-dark" href="{% url 'cart-view'%}">&#x2190; Back to cart</a></div>
+                <a  class="btn btn-success" href="{% url 'chceckout-confirm'%}">Payment PayU</a>
+                </div>
+                
+
+                    <h3> Order Summary </h3>
+                <hr>
+                {% for item in items %}
+                <div class="cart-row">
+		            <div style="flex:2"><p>{{item.product.name}} ({{item.product.size}} cm)</p></div>
+		            <div style="flex:2"><p>{{item.product.price}}</p></div>
+		            <div style="flex:1"><p>x{{item.quantity}}</p></div>
+	            </div>
+                {%endfor%}
+                
+                <h5><strong>Items:   {{order.get_cart_items}}</strong></h5>
+	            <hr>
+                <hr>
+                <h5><strong>Total:   {{order.get_cart_total}}</strong></h5>
+            </div>
+	    </div>
+
+    </div>
+
+
+{% endblock %}

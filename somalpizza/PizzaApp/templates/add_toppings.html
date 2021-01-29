@@ -1,0 +1,20 @@
+{% extends 'base.html'%}
+
+{% block title %} Add Toppings{% endblock %}
+
+{% block content%}
+
+<h1> Add Topping</h1>
+<hr>
+    
+    <div class = "box-element">
+        <form action="" method="post">
+            {% csrf_token%}
+            {{form.as_p}}
+            <button  type = "submit" class="btn btn-outline-secondary add-btn">Add</button></a>
+        </form>
+    
+    </div>
+
+
+{% endblock%}

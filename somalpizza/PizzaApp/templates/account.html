@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} My Account:   {% endblock %}
+    
+    {% block content %}
+        <h5>My account</h5>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            
+            <div class="cart-row">
+		        <div style="flex:2"><strong>First name</strong></div>
+		        <div style="flex:2"><strong>Last Name</strong></div>
+		        <div style="flex:1"><strong>Email</strong></div>
+		        <div style="flex:1"><strong>City</strong></div>
+                <div style="flex:1"><strong>Post Code</strong></div>
+                <div style="flex:1"><strong>street</strong></div>
+                <div style="flex:1"><strong>Number of building</strong></div>
+                <div style="flex:1"><strong>Flat Number</strong></div>
+                <div style="flex:1"><strong>Phone number</strong></div>
+            </div>        
+            {% for field in user_obj %}
+            <div class="cart-row">
+                <div style="flex:2"><p>{{field.first_name}}</p></div>
+		        <div style="flex:2"><p>{{field.last_name}}</p></div>
+                <div style="flex:1"><p>{{field.email}}</p></div>
+		        <div style="flex:1"><p>{{field.city}}</p></div>
+                <div style="flex:1"><p>{{field.post_code}}</p></div>
+		        <div style="flex:1"><p>{{field.street}}</p></div>
+		        <div style="flex:1"><p>{{field.number_of_builing}}</p></div>
+		        <div style="flex:1"><p>{{field.flat_number}}</p></div>
+		        <div style="flex:1"><p>{{field.phone_number}}</p></div>
+
+            </div>
+        {% endfor %}
+        <a  class="btn btn-outline-dark" href="{% url 'update-user'%}"> Update</a>
+        <a  class="btn btn-outline-dark" href="{% url 'change-password'%}">Change Password</a>
+        <a  class="btn btn-outline-dark" href="{% url 'orders_list' %}">My orders</a>
+        
+        </div>
+    </div>
+</div>
+    <br><br><br>
+    {% endblock %}

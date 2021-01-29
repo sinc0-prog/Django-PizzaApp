@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Are you sure?</h1>
+    
+<div class ="cart-row">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <a href="{% url 'delete_topping' pk=toppings.id%}"><button  type = "submit" class="btn btn-outline-secondary add-btn">Confirm</button></a>
+    </form>
+<div class = "cart-row">
+    <a href = "{% url 'toppings_list' %}"><button class="btn btn-outline-secondary add-btn">Cancel</button></a>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+    Update Account
+{% endblock %}
+{% block content %}
+    <h2>Update Account</h2>
+      <div class="row">
+        <div class="col-lg-12">
+	    	<div class="box-element" id="form-wrapper">
+                <div class = 'form-field'>
+                    <div class = 'form_control'>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="Submit" value = 'Change' >
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

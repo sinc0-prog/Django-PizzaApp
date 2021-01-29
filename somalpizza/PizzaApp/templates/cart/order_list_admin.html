@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Orders {% endblock %}
+
+{% block content %}
+   
+<h5>Orders</h5>
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="box-element">
+
+            <div class="cart-row">
+		        <div style="flex:2"><strong>Order id</strong></div>
+		        <div style="flex:2"><strong>Client id</strong></div>
+                <div style="flex:3"><strong>Product</strong></div>
+		        <div style="flex:4"><strong>Added date</strong></div>
+                <div style="flex:3"><strong>Status</strong></div>
+                <div style="flex:1"><strong>Action</strong></div>
+	        </div>            
+                
+                {% for order in  orders %}
+            
+                   
+                    
+            <div class="cart-row">
+                <div style="flex:2"><p>{{order.id}}</p></div>
+                <div style="flex:2"><p>{{order.client.id}}</p></div>
+                <div style="flex:3"><p>({% for x in order.itemorder_set.all%} {{x}} {%endfor%})</p></div>
+                <div style="flex:4"><p>{{order.order_time}}</p></div>
+                <div style="flex:3"><p>{{order.order_status}}</p></div>
+                <div style="flex:1"><p><form action="" method="post">{{form}}{% csrf_token%}
+                        <input type="submit" id = 'form-button' class = "btn btn-success btn-block" value = 'Change'></p>
+                        <input type="hidden" name="order_id" value="{{ order.id }}" />
+                        </form></div>
+                
+            </div>  
+            {% endfor %}
+          
+        
+        </div>
+    </div>
+</div>
+{% endblock %}

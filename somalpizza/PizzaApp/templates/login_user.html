@@ -1,0 +1,29 @@
+
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    Logowanie
+{% endblock %}
+{% block content %}
+    <h2>Logowanie {{user.username}}</h2>
+     <div class = "box-element">
+        <div class = 'form_field'>   
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button  type = "submit" class="btn btn-success">Log In</button></a>
+            </form>
+            <a href="{% url 'reset_password'%}">Forgot password?</a>
+            <br><a href="{% url 'signup'%}">Sign In!</a>
+        </div>
+        <div>
+        
+            
+            <hr>    
+            <a href = "{% url 'social:begin' 'facebook' %}"><img id = "btn-face"src = "{% static 'images/indeks.png' %}"></a>
+
+            <br><a href = "{% url 'social:begin' 'google-oauth2' %}"><img id ="btn-google" src = "{% static 'images/google.png' %}"></a>
+        </div>
+    </div>
+
+{% endblock %}
