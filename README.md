@@ -29,7 +29,7 @@ Stuff action:
 
 ## To start application locally
 * UPDATE DATA IN somalpizza/settings.py
-* 
+
 
 
 ```
